@@ -1,0 +1,48 @@
+1)Найдите 10 самых часто встречающихся слов.
+Ответ: select plaintext  from wordform limit 10;
+
+2)Найдите все слова, которые начинаются с буквы ‘a’, регистр не должен иметь значения.a’, регистр не должен иметь значения.
+Ответ: 1) select plaintext from wordform where plaintext ilike 'a%' ;
+2)select plaintext from wordform where stemtext ilike 'a%' ;
+
+3) Найдите все произведения, которые относятся к жанру ‘p’.
+Ответ: select title,genretype from work where genretype like 'p' ;
+
+4)Найдите среднее количество параграфов в произведения жанра 't’.
+Ответ: select AVG(totalparagraphs) from work where genretype ilike 't' ;
+
+5) Выведите все произведения, в которых количество слов выше среднего.
+Ответ: select title from work  where totalwords > (select AVG(totalwords) from work) ;
+
+6)Выведите имя героя, количество его реплик, и произведение, в котором этот герой
+встречается.
+Ответ: select character.charname,character.speechcount,work.title from character inner join character_work on character_work.charid = character.charid inner join work on character_work.workid = work.workid ;
+
+7) Выведите среднее количество реплик героев в произведении ‘Romeo and Juliet’.
+Ответ: select round(avg(character.speechcount)),work.title from character inner join character_work on character_work.charid = character.charid inner join work on work.workid = character_work.workid group by title having title = 'Romeo and Juliet' ;
+
+8) Выведите общее количество слов в каждой из секций в таблице paragraph.
+Ответ: select section,sum(wordcount) from paragraph group by  section;
+
+9)Выведите всех героев, которые имеют от 15 до 30 реплик.
+Ответ: select charname,speechcount from character where speechcount >=15 and speechcount <= 30 ; 
+
+10) Выведите все произведения, которые были написаны в 17 веке
+Ответ: select title,year from work where year >= 1601 and year <= 1699 ;
+
+11) Найдите все произведения, которые имею в полном названии слово 'the’
+Ответ: select longtitle from work where longtitle like '%the%' ;
+
+12) Выведите все уникальные секции в paragraph.
+Ответ: 
+
+13) Для каждой главы выведите: id, описание и название произведения, к которой относится
+данная глава.
+Ответ: select  chapter.chapterid, chapter.description, work.title from chapter inner join work on chapter.workid = work.workid;
+
+14) Для каждого параграфа выведите: номер параграфа, имя героя, и количество реплик героя
+Ответ: select paragraph.paragraphnum, character.charname, character.speechcount from paragraph inner join character on character.charid = paragraph.charid;
+
+15) Для каждого параграфа выведите: номер параграфа, название произведения и год выхода
+этого произведения.
+Ответ: select paragraph.paragraphnum,work.title,work.year from paragraph inner join work on work.workid = paragraph.workid;
